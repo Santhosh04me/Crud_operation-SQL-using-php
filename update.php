@@ -1,25 +1,38 @@
 <?php
-include'connect.php';
+include 'connect.php';
 
-if(isset($_POST['submit'])){
-    $name=$_POST['name'];
-    $email=$_POST['email'];
-    $mobile=$_POST['mobile'];
-    $password=$_POST['password'];
+// Make sure to validate and sanitize $_GET['updateid'] before using it
 
-    $sql="insert into crud(name,email,phone,password) 
-    values('$name','$email','$mobile','$password')";
-    $result= mysqli_query($con,$sql);
-    if($result){
-      echo 'update succesully'
-    }else{
-      
+    $id = $_GET['updateid'];
+$sql ="select * from 'crud' where id=$id";
+$result = mysqli_query($con,$sql);
+$row= mysqli_fetch_assoc($result);
+    $name=$row['name'];
+    $email=$row['email'];
+    $phone=$row['phone'];
+    $pasword=$row['password'];
+
+if (isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $mobile = $_POST['mobile'];
+    $password = $_POST['password'];
+
+    // Corrected SQL query (use backticks around table name, not single quotes)
+    $sql = "UPDATE `crud` SET name='$name', email='$email', 
+    phone='$mobile', password='$password' WHERE id=$id";
+
+    $result = mysqli_query($con, $sql);
+
+    if ($result) {
+        echo "Updated successfully";
+    } else {
+        // Use mysqli_error instead of mysql_error for MySQLi
+        die(mysqli_error($con));
     }
-    
 }
+
 ?>
-
-
 
 
 <!doctype html>
@@ -54,7 +67,7 @@ if(isset($_POST['submit'])){
     <input type="password" class="form-control" placeholder="Enter Your password" name="password" autocomplete="off">
   <div>
     <br>
-  <button type="submit" class="btn btn-primary" name="submit" >Submit</button>
+  <button type="submit" class="btn btn-primary" name="submit" >Update</button>
 </form>
     </div>
 <?php
