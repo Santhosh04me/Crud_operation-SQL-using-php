@@ -1,38 +1,33 @@
 <?php
-include 'connect.php';
+include'connect.php';
+$id=$_GET['updateid'];
+$sql = "select * from `crud` where id=$id";
+$results=mysqli_query($con,$sql);
+$rows =mysqli_fetch_assoc($results);
+$name=$rows['name'];
+$email=$rows['email'];
+$phone=$rows['phone'];
+$password=$rows['password'];
+        
 
-// Make sure to validate and sanitize $_GET['updateid'] before using it
+if(isset($_POST['submit'])){
+    $name=$_POST['name'];
+    $email=$_POST['email'];
+    $mobile=$_POST['mobile'];
+    $password=$_POST['password'];
 
-    $id = $_GET['updateid'];
-$sql ="select * from 'crud' where id=$id";
-$result = mysqli_query($con,$sql);
-$row= mysqli_fetch_assoc($result);
-    $name=$row['name'];
-    $email=$row['email'];
-    $phone=$row['phone'];
-    $pasword=$row['password'];
-
-if (isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $mobile = $_POST['mobile'];
-    $password = $_POST['password'];
-
-    // Corrected SQL query (use backticks around table name, not single quotes)
-    $sql = "UPDATE `crud` SET name='$name', email='$email', 
+    $sql="update `crud` SET name='$name', email='$email', 
     phone='$mobile', password='$password' WHERE id=$id";
-
-    $result = mysqli_query($con, $sql);
-
-    if ($result) {
-        echo "Updated successfully";
-    } else {
-        // Use mysqli_error instead of mysql_error for MySQLi
-        die(mysqli_error($con));
-    }
+    $result= mysqli_query($con,$sql);
+    if($result){
+      echo 'update succesully';
+    }else{
+      
+    }  
 }
-
 ?>
+
+
 
 
 <!doctype html>
@@ -49,25 +44,30 @@ if (isset($_POST['submit'])) {
 
   <div class="mb-3">
     <label  >Name</label>
-    <input type="text" class="form-control" placeholder="Enter Your Name" name="name" autocomplete="off">
+    <input type="text" class="form-control" placeholder="Enter Your Name"
+     name="name" value=<?php echo $name;?>
+     autocomplete="off">
     <div>
 
   <div class="mb-3">
     <label  >Email</label>
-    <input type="email" class="form-control" placeholder="Enter Your Email" name="email" autocomplete="off">
+    <input type="email" class="form-control" placeholder="Enter Your Email" 
+    name="email" value=<?php echo $email;?> autocomplete="off">
   <div>
 
   <div class="mb-3">
     <label  >Mobile</label>
-    <input type="text" class="form-control" placeholder="Enter Your mobile number" name="mobile" autocomplete="off">
+    <input type="text" class="form-control" placeholder="Enter Your mobile number" 
+    name="mobile" value=<?php echo $phone;?> >
   <div>
 
   <div class="mb-5">
     <label  >password</label>
-    <input type="password" class="form-control" placeholder="Enter Your password" name="password" autocomplete="off">
+    <input type="password" class="form-control" placeholder="Enter Your password" 
+    name="password" value=<?php echo $password;?> autocomplete="off">
   <div>
     <br>
-  <button type="submit" class="btn btn-primary" name="submit" >Update</button>
+  <button type="submit" class="btn btn-primary" name="submit" >update</button>
 </form>
     </div>
 <?php

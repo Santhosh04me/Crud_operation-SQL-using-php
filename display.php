@@ -44,7 +44,7 @@ include "connect.php";?>
       <td>'.$phone.'</td>
       <td>'.$pasword.'</td>
      <td> <buttton class="btn btn-primary">
-     <a href="update.php?updateid='.$id.'" class="text-light">Update</a>
+     <a href="update.php? updateid='.$id.'" class="text-light">Update</a>
      </buttton>
     <buttton class="btn btn-danger">
     <a href="delete.php? deleteid='.$id.'" class="text-light">Delete</a>
